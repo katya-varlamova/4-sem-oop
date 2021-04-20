@@ -1,7 +1,9 @@
-# This file is used to ignore files which are generated
-# ----------------------------------------------------------------------------
 
 *~
+*.iml
+*.xml
+*.bin
+
 *.pro*
 *.autosave
 *.a
@@ -35,6 +37,8 @@ Thumbs.db
 *.rc
 /.qmake.cache
 /.qmake.stash
+*.idea*
+*cmake-build-debug*
 
 # qtcreator generated files
 *.pro.user*
