@@ -3,7 +3,7 @@
 *.iml
 *.xml
 *.bin
-
+*build*
 *.pro*
 *.autosave
 *.a

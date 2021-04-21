@@ -6,8 +6,8 @@
 
 #define WIDTH 1500
 #define HEIGHT 1000
-#define DOWNLOAD_PATH "/Users/kate/Desktop/oop/lab_01_oop/files/outmodel.txt"
-#define UPLOAD_PATH "/Users/kate/Desktop/oop/lab_01_oop/files/model.txt"
+#define DOWNLOAD_PATH "/Users/kate/Desktop/oop/lab_01/files/outmodel.txt"
+#define UPLOAD_PATH "/Users/kate/Desktop/oop/lab_01/files/model.txt"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Viewer; }

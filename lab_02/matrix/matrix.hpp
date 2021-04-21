@@ -1,101 +1,4 @@
 
-#include <memory>
-
-#include "const_matrix_iterator.h"
-#include "matrix_base.hpp"
-#include "matrix_iterator.h"
-
-
-template <typename Type>
-class Matrix final: public MatrixBase
-{
-public:
-    class MatrixRow;
-    
-    explicit Matrix(size_t rows = 0, size_t columns = 0);
-    Matrix(size_t rows, size_t columns, const Type &filler);
-    Matrix(std::initializer_list<std::initializer_list<Type> > init_list);
-
-    Matrix(const Matrix &matrix);
-    Matrix(Matrix &&matrix) noexcept;
-
-    Matrix<Type> &operator=(const Matrix &matrix);
-    Matrix<Type> &operator=(Matrix &&matrix) noexcept;
-    Matrix<Type> &operator=(std::initializer_list<std::initializer_list<Type> > init_list);
-
-    virtual ~Matrix() = default;
-
-    // iterators
-    MatrixIterator<Type> begin() const;
-    MatrixIterator<Type> end() const;
-
-    ConstMatrixIterator<Type> cbegin() const;
-    ConstMatrixIterator<Type> cend() const;
-
-    // comparisons
-    bool operator==(const Matrix& matrix) const;
-    bool operator!=(const Matrix& matrix) const;
-
-    // math
-
-    Matrix<Type> operator+(const Matrix &matrix) const;
-    Matrix<Type> &operator+=(const Matrix &matrix);
-
-    Matrix<Type> operator-(const Matrix &matrix) const;
-    Matrix<Type> &operator-=(const Matrix &matrix);
-
-    Matrix<Type> operator*(const Matrix &matrix) const;
-    Matrix<Type> &operator*=(const Matrix &matrix);
-    Matrix<Type> operator*(const Type &elem) const noexcept;
-    Matrix<Type> &operator*=(const Type &elem) noexcept;
-
-    Matrix<Type> operator/(const Matrix &matrix) const;
-    Matrix<Type> &operator/=(const Matrix &matrix);
-    Matrix<Type> operator/(const Type &elem) const;
-    Matrix<Type> &operator/=(const Type &elem);
-
-    Matrix<Type> operator-();
-
-    Type determinant() const;
-
-    void transpose();
-    void adjoint();
-    void inverse();
-
-    void resize(size_t new_rows, size_t new_cols, const Type &filler = {});
-
-    void insert_row(size_t pos, const Type &filler);
-    void insert_col(size_t pos, const Type &filler);
-
-    void delete_row(size_t pos);
-    void delete_col(size_t pos);
-
-    MatrixRow &operator[](size_t row);
-    const MatrixRow &operator[](size_t row) const;
-
-private:
-    std::shared_ptr<MatrixRow[]> matrix_ptr { nullptr };
-    std::shared_ptr<MatrixRow[]> alloc_matrix(size_t rows, size_t cols);
-    Type _determinant(const Matrix<Type> &matr) const;
-    Matrix<Type> make_minor(const Matrix<Type> &matr, size_t crossed_row, size_t crossed_col) const;
-
-public:
-    class MatrixRow {
-    private:
-        std::shared_ptr<Type[]> row;
-        size_t size;
-    public:
-        MatrixRow(Type *row, const size_t size): row(row), size(size) {}
-        MatrixRow(): row(nullptr), size(0) {}
-        
-        Type &operator[](size_t index);
-        const Type &operator[](size_t index) const;
-
-        void reset();
-        void reset(Type *row, size_t size);
-    };
-};
-// constructors
 template <typename Type>
 std::shared_ptr<typename Matrix<Type>::MatrixRow[]>
 Matrix<Type>::alloc_matrix(size_t rows, size_t cols)
@@ -108,7 +11,7 @@ Matrix<Type>::alloc_matrix(size_t rows, size_t cols)
     }
     catch (std::bad_alloc &err)
     {
-        throw Index_Out_Of_Range_Exception(__FILE__, __LINE__, __TIME__, "memory allocation error");
+        throw Memory_Allocation_Exception(__FILE__, __LINE__, __TIME__, "memory allocation error");
     }
     return matr_ptr;
 }
@@ -118,6 +21,16 @@ Matrix<Type>::Matrix(size_t rows, size_t columns)
     this->rows = rows;
     this->cols = columns;
     this->matrix_ptr = alloc_matrix(rows, columns);
+}
+template <typename Type>
+Matrix<Type>::Matrix(Type **c_matrix, size_t rows, size_t cols)
+{
+    this->rows = rows;
+    this->cols = cols;
+    this->matrix = alloc_matrix(rows, cols);
+    for (size_t i = 0; i < rows; ++i)
+        for (size_t j = 0; j < cols; ++j)
+            matrix_ptr[i][j] = c_matrix[i][j];
 }
 template <typename Type>
 Matrix<Type>::Matrix(size_t rows, size_t columns, const Type &filler)
@@ -170,6 +83,7 @@ Matrix<Type>::Matrix(Matrix &&matrix) noexcept
     this->cols = matrix.cols;
     this->matrix_ptr = matrix.matrix_ptr;
 }
+//equals
 template <typename Type>
 Matrix<Type> &Matrix<Type>::operator=(const Matrix &matrix)
 {
@@ -197,17 +111,29 @@ Matrix<Type> &Matrix<Type>::operator=(std::initializer_list<std::initializer_lis
     *this = tmp;
     return *this;
 }
-
+// iterators
 template <typename Type>
-MatrixIterator<Type> Matrix<Type>::begin() const
+MatrixIterator<Type> Matrix<Type>::begin()
 {
     MatrixIterator<Type> iter(matrix_ptr, rows, cols, 0);
     return iter;
 }
 template <typename Type>
-MatrixIterator<Type> Matrix<Type>::end() const
+MatrixIterator<Type> Matrix<Type>::end()
 {
     MatrixIterator<Type> iter(matrix_ptr, rows, cols, cols * rows);
+    return iter;
+}
+template <typename Type>
+ConstMatrixIterator<Type> Matrix<Type>::begin() const
+{
+    ConstMatrixIterator<Type> iter(matrix_ptr, rows, cols, 0);
+    return iter;
+}
+template <typename Type>
+ConstMatrixIterator<Type> Matrix<Type>::end() const
+{
+    ConstMatrixIterator<Type> iter(matrix_ptr, rows, cols, cols * rows);
     return iter;
 }
 template <typename Type>
@@ -223,9 +149,10 @@ ConstMatrixIterator<Type> Matrix<Type>::cend() const
     return iter;
 }
 template <typename Type>
-bool Matrix<Type>::operator==(const Matrix& matrix) const {
-    MatrixIterator<Type> lhs_iter = this->begin();
-    MatrixIterator<Type> rhs_iter = matrix.begin();
+bool Matrix<Type>::operator==(const Matrix& matrix) const
+{
+    ConstMatrixIterator<Type> lhs_iter = begin();
+    ConstMatrixIterator<Type> rhs_iter = matrix.begin();
 
     for (; lhs_iter != this->end(); lhs_iter++, rhs_iter++)
     {
@@ -346,6 +273,100 @@ Matrix<Type> &Matrix<Type>::operator*=(const Type &elem) noexcept
     return (*this);
 }
 template <typename Type>
+Matrix<Type> Matrix<Type>::sum(const Matrix<Type> &matrix) const
+{
+    if (matrix.rows != rows || matrix.cols != cols)
+    {
+        throw Sizes_Differ_Exception(__FILE__, __LINE__, __TIME__,
+                                     "impossible to make operation: sizes of matrix are incorrect");
+    }
+    Matrix<Type> result(rows, cols);
+    for (size_t i = 0; i < matrix.rows; i++)
+        for (size_t j = 0; j < matrix.cols; j++)
+            result[i][j] = matrix[i][j] + matrix_ptr[i][j];
+    return result;
+}
+template <typename Type>
+Matrix<Type> &Matrix<Type>::sum_eq(const Matrix &matrix)
+{
+    if (matrix.rows != rows || matrix.cols != cols)
+    {
+        throw Sizes_Differ_Exception(__FILE__, __LINE__, __TIME__,
+                                     "impossible to make operation: sizes of matrix are incorrect");
+    }
+    for (size_t i = 0; i < matrix.rows; i++)
+        for (size_t j = 0; j < matrix.cols; j++)
+            matrix_ptr[i][j] += matrix[i][j];
+    return *this;
+}
+template <typename Type>
+Matrix<Type> Matrix<Type>::sub(const Matrix<Type> &matrix) const
+{
+    if (matrix.rows != rows || matrix.cols != cols)
+        throw Sizes_Differ_Exception(__FILE__, __LINE__, __TIME__, "impossible to make operation: sizes of matrix are incorrect");
+    Matrix<Type> result(rows, cols);
+    for (size_t i = 0; i < matrix.rows; i++)
+        for (size_t j = 0; j < matrix.cols; j++)
+            result[i][j] = matrix_ptr[i][j] - matrix[i][j];
+    return result;
+}
+template <typename Type>
+Matrix<Type> &Matrix<Type>::sub_eq(const Matrix &matrix)
+{
+    if (matrix.rows != rows || matrix.cols != cols)
+        throw Sizes_Differ_Exception(__FILE__, __LINE__, __TIME__, "impossible to make operation: sizes of matrix are incorrect");
+    for (size_t i = 0; i < matrix.rows; i++)
+        for (size_t j = 0; j < matrix.cols; j++)
+            matrix_ptr[i][j] -= matrix[i][j];
+    return *this;
+}
+template <typename Type>
+Matrix<Type> Matrix<Type>::mul_matrix(const Matrix<Type> &matrix) const
+{
+    if (cols != matrix.rows)
+        throw Sizes_Differ_Exception(__FILE__, __LINE__, __TIME__, "impossible to make operation: sizes of matrix are incorrect");
+    Matrix<Type> result(rows, matrix.cols);
+    for (size_t i = 0; i < rows; i++)
+        for (size_t k = 0; k < matrix.cols; k++)
+        {
+            result[i][k] = 0;
+            for (size_t j = 0; j < cols; j++)
+                result[i][k] += matrix_ptr[i][j] * matrix[j][k];
+        }
+    return result;
+}
+template <typename Type>
+Matrix<Type> Matrix<Type>::mul_elem(const Type &elem) const noexcept
+{
+    Matrix<Type>res(*this);
+    for (auto &el : res)
+        el *= elem;
+    return res;
+}
+template <typename Type>
+Matrix<Type> &Matrix<Type>::mul_eq_matrix(const Matrix &matrix)
+{
+    if (cols != matrix.rows)
+        throw Sizes_Differ_Exception(__FILE__, __LINE__, __TIME__, "impossible to make operation: sizes of matrix are incorrect");
+    Matrix<Type> result(rows, matrix.cols);
+    for (size_t i = 0; i < rows; i++)
+        for (size_t k = 0; k < matrix.cols; k++)
+        {
+            result[i][k] = 0;
+            for (size_t j = 0; j < cols; j++)
+                result[i][k] += matrix_ptr[i][j] * matrix[j][k];
+        }
+    *this = result;
+    return *this;
+}
+template <typename Type>
+Matrix<Type> &Matrix<Type>::mul_eq_elem(const Type &elem) noexcept
+{
+    for (auto &el : *this)
+        el *= elem;
+    return (*this);
+}
+template <typename Type>
 Matrix<Type> Matrix<Type>::make_minor(const Matrix<Type> &matr, size_t crossed_row, size_t crossed_col) const
 {
     Matrix<Type>res(matr.rows - 1, matr.rows - 1);
@@ -404,6 +425,16 @@ void Matrix<Type>::transpose()
     cols = tmp_st;
 }
 template <typename Type>
+Matrix<Type> Matrix<Type>::transpose_matrix()
+{
+    Matrix<Type> tmp(cols, rows);
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < cols; j++)
+            tmp[j][i] = matrix_ptr[i][j];
+    }
+    return tmp;
+}
+template <typename Type>
 void Matrix<Type>::adjoint()
 {
     if (cols != rows)
@@ -434,6 +465,39 @@ void Matrix<Type>::adjoint()
     }
 }
 template <typename Type>
+Matrix<Type> Matrix<Type>::adjoint_matrix()
+{
+    if (cols != rows)
+        throw Sizes_Differ_Exception(__FILE__, __LINE__, __TIME__, "impossible to make operation: sizes of adjoint matrix must be equal");
+
+    Matrix<Type> res(*this);
+
+    if (cols == 1)
+    {
+        res[0][0] = 1.0;
+        return res;
+    }
+
+    Matrix<Type> copy(*this);
+    Type val;
+    int sig;
+    for (size_t i = 0; i < rows; i++)
+    {
+        if (i % 2 == 0)
+            sig = 1;
+        else
+            sig = -1;
+        for (size_t j = 0; j < cols; j++)
+        {
+            Matrix<Type> tmp = make_minor(copy, i, j);
+            val = tmp.determinant();
+            res[j][i] = val * sig;
+            sig *= -1;
+        }
+    }
+    return res;
+}
+template <typename Type>
 void Matrix<Type>::inverse()
 {
     if (cols != rows)
@@ -442,6 +506,18 @@ void Matrix<Type>::inverse()
     Type det = determinant();
     adjoint();
     (*this) /= det;
+}
+template <typename Type>
+Matrix<Type> Matrix<Type>::inverse_matrix()
+{
+    if (cols != rows)
+        throw Sizes_Differ_Exception(__FILE__, __LINE__, __TIME__, "impossible to make operation: sizes of inverse matrix must be equal");
+
+    Type det = determinant();
+    Matrix<Type> res(*this);
+    res.adjoint();
+    res /= det;
+    return res;
 }
 template <typename Type>
 Matrix<Type> Matrix<Type>::operator/(const Matrix<Type> &matrix) const
@@ -478,6 +554,44 @@ template <typename Type>
 Matrix<Type> Matrix<Type>::operator-()
 {
     Matrix<Type>res(*this);
+    for (auto &el : res)
+        el = -el;
+    return res;
+}
+template <typename Type>
+Matrix<Type> Matrix<Type>::div_matrix(const Matrix<Type> &matrix) const
+{
+    Matrix<Type>res(matrix);
+    res.inverse();
+    res = (*this) * res;
+    return res;
+}
+template <typename Type>
+Matrix<Type> Matrix<Type>::div_elem(const Type &elem) const
+{
+    Matrix<Type>res(*this);
+    for (auto &el : res)
+        el /= elem;
+    return res;
+}
+template <typename Type>
+Matrix<Type> &Matrix<Type>::div_eq_matrix(const Matrix &matrix)
+{
+    Matrix<Type> tmp(matrix);
+    tmp.inverse();
+    (*this) *= tmp;
+    return (*this);
+}
+template <typename Type>
+Matrix<Type> &Matrix<Type>::div_eq_elem(const Type &elem)
+{
+    for (auto &el : *this)
+        el /= elem;
+    return (*this);
+}
+template <typename Type>
+Matrix<Type> Matrix<Type>::neg() {
+    Matrix<Type> res(*this);
     for (auto &el : res)
         el = -el;
     return res;

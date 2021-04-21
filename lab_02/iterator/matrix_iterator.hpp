@@ -1,70 +1,10 @@
-//
-//  MatrixIterator.h
-//  lab_02
-//
-//  Created by Екатерина on 18.04.2021.
-//  Copyright © 2021 Екатерина. All rights reserved.
-//
-#ifndef MatrixIterator_h
-#define MatrixIterator_h
-
-#include <iostream>
-# include <memory>
-
-# include "errors.hpp"
-
-using namespace std;
 
 template <typename Type>
-class Matrix;
-
-template <typename Type>
-class MatrixIterator
+MatrixIterator<Type>::MatrixIterator()
+        : matrix(std::weak_ptr<typename Matrix<Type>::MatrixRow[]>()),
+          rows(0), cols(0), index(0)
 {
-public:
-    //constructors
-    MatrixIterator(const shared_ptr<typename Matrix<Type>::MatrixRow[]>& matrix_ptr, size_t rows, size_t cols, size_t ind = 0);
-    MatrixIterator(const MatrixIterator &it) = default;
-
-    // getting access
-    Type& operator*();
-    Type* operator->();
-
-    const Type& operator*() const;
-    const Type* operator->() const;
-    
-    // equals
-    MatrixIterator<Type>& operator =(const MatrixIterator<Type> &other);
-    MatrixIterator<Type>& operator +=(size_t ind);
-    MatrixIterator<Type>& operator -=(size_t ind);
-
-    // math
-    MatrixIterator<Type>& operator ++();
-    MatrixIterator<Type> operator ++(int);
-    MatrixIterator<Type> operator +(size_t ind);
-
-    MatrixIterator<Type>& operator --();
-    MatrixIterator<Type> operator --(int);
-    MatrixIterator<Type> operator -(size_t ind);
-
-    // comparison
-    explicit operator bool() const;
-    bool operator!=(MatrixIterator const& other) const;
-    bool operator==(MatrixIterator const& other) const;
-    bool operator<(MatrixIterator const& other) const;
-    bool operator>(MatrixIterator const& other) const;
-    bool operator<=(MatrixIterator const& other) const;
-    bool operator>=(MatrixIterator const& other) const;
-    
-private:
-    void check_index();
-    void check_nullptr();
-    weak_ptr <typename Matrix<Type>::MatrixRow[]> matrix;
-    size_t cols;
-    size_t rows;
-    size_t index;
-};
-
+}
 template <typename Type>
 MatrixIterator<Type>::MatrixIterator(const shared_ptr<typename Matrix<Type>::MatrixRow[]>& matrix_ptr, size_t rows, size_t cols, size_t ind)
 
@@ -113,16 +53,15 @@ Type* MatrixIterator<Type>::operator->()
     check_nullptr();
     check_index();
     shared_ptr<typename Matrix<Type>::MatrixRow[]> matr(matrix);
-    return &matr[index / cols][index % cols];
+    return &(matr[index / cols][index % cols]);
 }
-
 template <typename Type>
 const Type* MatrixIterator<Type>::operator->() const
 {
     check_nullptr();
     check_index();
-    shared_ptr<Type> matr(matrix);
-    return &matr[index / cols][index % cols];
+    shared_ptr<typename Matrix<Type>::MatrixRow[]> matr(matrix);
+    return &(matr[index / cols][index % cols]);
 }
 template <typename Type>
 MatrixIterator<Type>& MatrixIterator<Type>::operator =(const MatrixIterator<Type> &other)
@@ -229,4 +168,3 @@ bool MatrixIterator<Type>::operator>=(MatrixIterator const& other) const
 {
     return index >= other.index;
 }
-#endif /* MatrixIterator_h */

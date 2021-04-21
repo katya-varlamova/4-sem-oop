@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include "matrix.h"
+#include "matrix/matrix.h"
 typedef bool (*test)(void);
 typedef struct
 {
