@@ -11,6 +11,11 @@ void Controller::load()
     facade->loadData("/Users/kate/Desktop/oop/lab_03/files/model.txt");
     facade->draw(drawer);
 }
+void Controller::undo()
+{
+    facade->undo();
+    facade->draw(drawer);
+}
 void Controller::moveModel(double dx, double dy, double dz)
 {
     facade->moveObject(dx, dy, dz);

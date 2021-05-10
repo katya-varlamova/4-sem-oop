@@ -11,11 +11,15 @@ View::View(QWidget *parent)
     std::shared_ptr<QBrush> brush (new QBrush(Qt::white));
     drawer = std::shared_ptr<BaseDrawer>(new QtDrawer(scene, brush, pen));
     controller = std::shared_ptr<Controller>(new Controller(this, drawer));ui->graphicsView->setScene(scene.get());
-    connect(ui->loadBut, SIGNAL(clicked()), this, SLOT(on_loadBut_clicked()));
 }
 View::~View()
 {
     delete ui;
+}
+void View::on_undoBut_clicked()
+{
+    scene->clear();
+    controller->undo();
 }
 void View::on_loadBut_clicked()
 {

@@ -13,6 +13,7 @@ public:
     void moveCamera(double dx, double dy, double dz);
     void rotateCamera(double ax, double ay, double az);
     void load();
+    void undo();
 
 protected:
     QMainWindow *view;

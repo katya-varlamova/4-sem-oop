@@ -12,6 +12,7 @@
 #include "Model/Handlers/RotateObjectHandler.h"
 #include "Model/Handlers/DrawHandler.h"
 #include "Model/Handlers/ProjectionHandler.h"
+#include "Model/Snapshots/Caretaker.h"
 class Facade
 {
 public:
@@ -31,6 +32,7 @@ public:
 
 protected:
     std::shared_ptr<BaseScene> scene;
+    std::shared_ptr<Caretaker> caretaker;
 };
 
 #endif // FACADE_H

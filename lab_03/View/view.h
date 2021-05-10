@@ -23,6 +23,8 @@ private:
 private slots:
     void on_loadBut_clicked();
 
+    void on_undoBut_clicked();
+
     void on_moveModelBut_clicked();
 
     void on_scaleModelBut_clicked();
