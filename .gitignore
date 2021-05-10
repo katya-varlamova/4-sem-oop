@@ -3,7 +3,6 @@
 *.iml
 *.xml
 *.bin
-*build*
 *.pro*
 *.autosave
 *.a
@@ -11,6 +10,7 @@
 *.moc
 *.o
 *.obj
+*build-*
 *.orig
 *.rej
 *.so
