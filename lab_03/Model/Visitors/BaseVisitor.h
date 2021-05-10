@@ -9,7 +9,7 @@ class FrameModel;
 class BaseVisitor
 {
 public:
-    BaseVisitor();
+    BaseVisitor() = default;
     virtual void visitPoint(BasePoint& point) = 0;
     virtual void visitEdge(BaseEdge& edge) = 0;
     virtual void visitFrameModel(FrameModel &model) = 0;

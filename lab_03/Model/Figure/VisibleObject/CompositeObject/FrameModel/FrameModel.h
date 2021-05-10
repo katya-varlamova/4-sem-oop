@@ -10,7 +10,6 @@ public:
 
     virtual void accept(std::shared_ptr<BaseVisitor>& visitor) override;
     virtual std::shared_ptr<BaseObject> clone() override;
-
 };
 
 #endif // FRAMEMODEL_H

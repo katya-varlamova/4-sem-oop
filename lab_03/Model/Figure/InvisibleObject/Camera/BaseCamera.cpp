@@ -16,6 +16,14 @@ double BaseCamera::getDistance()
 {
     return distance;
 }
+void BaseCamera::setPosition(std::vector<double> position)
+{
+    this->position = position;
+}
+std::vector<double> BaseCamera::getPosition()
+{
+    return position;
+}
 bool BaseCamera::isComposite()
 {
     return true;

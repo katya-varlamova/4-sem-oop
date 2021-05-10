@@ -44,10 +44,9 @@ add_executable(${PROJECT_NAME} main.cpp Controller/Controller.cpp
         Model/Scene/Scene.cpp
         Model/Scene/SceneBuilder/SceneBuilder.cpp
         Model/Scene/SceneBuilder/SceneDirector.cpp
-        Model/Visitors/BaseVisitor.cpp
         Model/Visitors/TransformObjectVisitor.cpp
         main.cpp
-        View/view.cpp Model/Handlers/DrawHandler.cpp Model/Handlers/DrawHandler.h Model/Visitors/DrawObjectVisitor.cpp Model/Visitors/DrawObjectVisitor.h Model/Visitors/ProjectionVisitor.cpp Model/Visitors/ProjectionVisitor.h Model/Handlers/ProjectionHandler.cpp Model/Handlers/ProjectionHandler.h)
+        View/view.cpp Model/Handlers/DrawHandler.cpp Model/Handlers/DrawHandler.h Model/Visitors/DrawObjectVisitor.cpp Model/Visitors/DrawObjectVisitor.h Model/Visitors/ProjectionVisitor.cpp Model/Visitors/ProjectionVisitor.h Model/Handlers/ProjectionHandler.cpp Model/Handlers/ProjectionHandler.h Model/Visitors/MoveObjectVisitor.cpp Model/Visitors/MoveObjectVisitor.h)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

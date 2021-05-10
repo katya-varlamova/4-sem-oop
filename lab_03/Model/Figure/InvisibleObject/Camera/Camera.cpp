@@ -1,9 +1,9 @@
 #include "Camera.h"
-Camera::Camera(double distance, std::vector<double> worldPosition)
+Camera::Camera(double distance, std::vector<double> &position, Matrix<double> transformMatrix)
 {
-
-    this->worldPosition = worldPosition;
+    this->position = position;
     this->distance = distance;
+    this->transformMatrix = transformMatrix;
 }
 void Camera::accept(std::shared_ptr<BaseVisitor>& visitor)
 {
@@ -11,5 +11,5 @@ void Camera::accept(std::shared_ptr<BaseVisitor>& visitor)
 }
 std::shared_ptr<BaseObject> Camera::clone()
 {
-    return std::shared_ptr<BaseObject>(new Camera(distance, worldPosition));
+    return std::shared_ptr<BaseObject>(new Camera(distance, position, Matrix<double>(transformMatrix)));
 }

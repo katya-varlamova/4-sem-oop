@@ -7,6 +7,7 @@
 
 #include "BaseVisitor.h"
 #include <memory>
+#include <vector>
 #include "Model/Containers/matrix/matrix/matrix.h"
 class ProjectionVisitor : public BaseVisitor
 {

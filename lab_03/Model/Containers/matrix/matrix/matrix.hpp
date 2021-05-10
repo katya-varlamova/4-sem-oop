@@ -687,7 +687,7 @@ ostream& operator<<(ostream& os, const Matrix<Type>& matr)
 {
     size_t i = 0;
     for (ConstMatrixIterator<Type> iter = matr.cbegin(); iter != matr.cend(); iter++, i++) {
-        *iter = 0;
+        cout << *iter << " ";
         if ((i + 1) % matr.get_cols() == 0)
             cout << endl;
     }

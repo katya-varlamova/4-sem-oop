@@ -4,6 +4,7 @@ BaseEdge::BaseEdge(std::shared_ptr<BasePoint> &start, std::shared_ptr<BasePoint>
 {
     this->start = start;
     this->finish = finish;
+
 }
 std::shared_ptr<BasePoint> BaseEdge::getStart()
 {

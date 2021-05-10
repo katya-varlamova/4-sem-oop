@@ -6,7 +6,7 @@
 class Point final: public BasePoint
 {
 public:
-    Point(double x, double y, double z);
+    Point(double x, double y, double z, std::vector<double> offset = {0, 0, 0});
 
     virtual void accept(std::shared_ptr<BaseVisitor>& visitor) override;
     virtual std::shared_ptr<BaseObject> clone() override;

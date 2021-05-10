@@ -51,6 +51,7 @@ void LoadHandler::handle(std::shared_ptr<BaseScene> &scene)
             points[i]->setX(points[i]->getX() - x_center);
             points[i]->setY(points[i]->getY() - y_center);
             points[i]->setZ(points[i]->getZ() - z_center);
+            points[i]->setOffset(std::vector<double>({x_center, y_center, z_center}));
         }
         fscanf(f, "%zu", &edgesCount);
 
@@ -62,11 +63,7 @@ void LoadHandler::handle(std::shared_ptr<BaseScene> &scene)
             edges.push_back(factory->createEdge( std::dynamic_pointer_cast<BasePoint>(points[fn - 1]->clone()),
                                                  std::dynamic_pointer_cast<BasePoint>(points[sn - 1]->clone())));
         }
-        std::shared_ptr<BaseFrameModelBuilder> builder(new FrameModelBuilder(points, edges));
-        std::shared_ptr<BaseFrameModelDirector> director(new FrameModelDirector());
-
-        std::shared_ptr<BaseObject> obj = director->createFrameModel(builder);
-        obj->setWorldPosition(std::vector<double>({x_center, y_center, z_center}));
+        std::shared_ptr<BaseObject> obj = factory->createFrameModel(points, edges);
         scene->addObject(obj);
     }
     fclose(f);

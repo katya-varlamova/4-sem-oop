@@ -2,9 +2,9 @@
 
 RotateCameraHandler::RotateCameraHandler(double ax, double ay, double az)
 {
-    this->ax = ax;
-    this->ay = ay;
-    this->az = az;
+    this->ax = -ax;
+    this->ay = -ay;
+    this->az = -az;
 }
 void RotateCameraHandler::handle(std::shared_ptr<BaseScene> &scene)
 {

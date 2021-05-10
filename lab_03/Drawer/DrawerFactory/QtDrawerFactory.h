@@ -6,9 +6,9 @@
 class QtDrawerFactory : public BaseDrawerFactory
 {
 public:
-    QtDrawerFactory(std::shared_ptr<QGraphicsScene> scene,
-                    std::shared_ptr<QPen> pen,
-                    std::shared_ptr<QBrush> brush);
+    QtDrawerFactory(std::shared_ptr<QGraphicsScene> &scene,
+                    std::shared_ptr<QPen> &pen,
+                    std::shared_ptr<QBrush> &brush);
     virtual std::shared_ptr<BaseDrawer> createDrawer() override;
 
 protected:

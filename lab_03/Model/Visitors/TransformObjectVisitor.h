@@ -14,9 +14,9 @@ public:
     virtual void visitCamera(BaseCamera& camera) override;
 protected:
     Matrix<double> transformMatrix = {{1,0,0,0},
-        {0,1,0,0},
-        {0,0,1,0},
-        {0,0,0,1}};
+                                      {0,1,0,0},
+                                      {0,0,1,0},
+                                      {0,0,0,1}};
 };
 
 #endif // TRANSFORMOBJECTVISITOR_H

@@ -1,6 +1,6 @@
 #include "QtDrawer.h"
 
-QtDrawer::QtDrawer(std::shared_ptr<QGraphicsScene> scene, std::shared_ptr<QBrush> brush, std::shared_ptr<QPen> pen)
+QtDrawer::QtDrawer(std::shared_ptr<QGraphicsScene> &scene, std::shared_ptr<QBrush> &brush, std::shared_ptr<QPen> &pen)
 {
     this->scene = scene;
     this->brush = brush;

@@ -2,7 +2,7 @@
 #define MOVECAMERAHANDLER_H
 
 #include "BaseHandler.h"
-#include "Model/Visitors/TransformObjectVisitor.h"
+#include "Model/Visitors/MoveObjectVisitor.h"
 class MoveCameraHandler : public BaseHandler
 {
 public:

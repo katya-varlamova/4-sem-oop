@@ -18,7 +18,6 @@ public:
     Facade();
     void moveCamera(double dx, double dy, double dz);
     void rotateCamera(double ax, double ay, double az);
-    //void scaleCamera(double kx, double ky, double kz);
 
     void moveObject(double dx, double dy, double dz);
     void rotateObject(double ax, double ay, double az);

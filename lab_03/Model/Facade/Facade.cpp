@@ -1,9 +1,9 @@
 #include "Facade.h"
 Facade::Facade()
 {
-    std::vector<double> worldPosition = {0, 0, -400};
-    double distance = 100;
-    std::shared_ptr<BaseSceneBuilder> builder(new SceneBuilder(distance, worldPosition));
+    std::vector<double> worldOffset = {0, 0, 700};
+    double distance = 400;
+    std::shared_ptr<BaseSceneBuilder> builder(new SceneBuilder(distance, worldOffset));
     std::shared_ptr<BaseSceneDirector> director(new SceneDirector());
 
     this->scene = director->createScene(builder);
@@ -34,8 +34,6 @@ void Facade::scaleObject(double kx, double ky, double kz)
     ScaleObjectHandler sh(kx, ky, kz);
     sh.handle(scene);
 }
-
-
 void Facade::loadData(const char *filename)
 {
     LoadHandler lh(filename);
@@ -44,9 +42,10 @@ void Facade::loadData(const char *filename)
 void Facade::draw(std::shared_ptr<BaseDrawer>& drawer)
 {
     std::shared_ptr<BaseScene> copyScene(new Scene(scene));
+
     ProjectionHandler ph;
     ph.handle(copyScene);
+
     DrawHandler dh(drawer);
     dh.handle(copyScene);
-
 }

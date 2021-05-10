@@ -8,7 +8,7 @@ Controller::Controller(QMainWindow *view, std::shared_ptr<BaseDrawer> drawer)
 }
 void Controller::load()
 {
-    facade->loadData("/Users/kate/Desktop/oop/lab_01/files/model.txt");
+    facade->loadData("/Users/kate/Desktop/oop/lab_03/files/model.txt");
     facade->draw(drawer);
 }
 void Controller::moveModel(double dx, double dy, double dz)

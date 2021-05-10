@@ -13,15 +13,15 @@ public:
     void setDistance(double distance);
     double getDistance();
 
+    std::vector<double> getPosition();
+    void setPosition(std::vector<double> );
+
     virtual bool isComposite() override;
 
 protected:
     double distance;
-    Matrix<double> transformMatrix = {{1,0,0,0},
-                                                        {0,1,0,0},
-                                                        {0,0,1,0},
-                                                        {0,0,0,1}};
-//    Matrix<double> matr;
+    Matrix<double> transformMatrix;
+    std::vector<double> position;
 };
 
 #endif // BASECAMERA_H

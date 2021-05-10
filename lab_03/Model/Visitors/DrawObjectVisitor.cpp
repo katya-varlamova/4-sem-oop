@@ -11,17 +11,8 @@ DrawObjectVisitor::DrawObjectVisitor(std::shared_ptr<BaseDrawer>& drawer)
 {
     this->drawer = drawer;
 }
-void DrawObjectVisitor::visitCamera(BaseCamera &camera)
-{
-}
-
 void DrawObjectVisitor::visitEdge(BaseEdge &edge)
 {
-//    std::cout << edge.getStart()->getX() << " "
-//    << edge.getStart()->getY() << " "
-//    << edge.getFinish()->getX() << " "
-//    << edge.getFinish()->getY() << std::endl;
-
     drawer->drawLine(edge.getStart()->getX(), edge.getStart()->getY(),
                       edge.getFinish()->getX(), edge.getFinish()->getY());
 }
@@ -34,7 +25,8 @@ void DrawObjectVisitor::visitFrameModel(FrameModel &model)
 }
 void DrawObjectVisitor::visitPoint(BasePoint &point)
 {
-//    std::cout << "point: "<< point.getX() << " "
-//              << point.getY() << std::endl;
     drawer->drawPoint(point.getX(), point.getY());
+}
+void DrawObjectVisitor::visitCamera(BaseCamera &camera)
+{
 }

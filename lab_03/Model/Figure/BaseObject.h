@@ -11,11 +11,6 @@ public:
     virtual void accept(std::shared_ptr<BaseVisitor>& visitor) = 0;
     virtual std::shared_ptr<BaseObject> clone() = 0;
 
-    void setWorldPosition(std::vector<double> pos);
-    std::vector<double> getWorldPosition();
-
-protected:
-    std::vector<double> worldPosition;
 };
 
 #endif // BASEOBJECT_H
