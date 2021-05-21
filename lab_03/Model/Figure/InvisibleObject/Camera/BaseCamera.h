@@ -4,24 +4,19 @@
 #include "Model/Figure/InvisibleObject/InvisibleObject.h"
 #include "vector"
 #include "Model/Containers/matrix/matrix/matrix.h"
+typedef struct
+{
+    double distance;
+    Matrix<double> transformMatrix;
+} direction;
 class BaseCamera : public InvisibleObject
 {
 public:
-    void setTransformMatrix(Matrix<double> &transformMatrix);
-    Matrix<double> getTransformMatrix();
-
-    void setDistance(double distance);
-    double getDistance();
-
-    std::vector<double> getPosition();
-    void setPosition(std::vector<double> );
-
     virtual bool isComposite() override;
-
+    void setDirection(direction &direction);
+    direction getDirection();
 protected:
-    double distance;
-    Matrix<double> transformMatrix;
-    std::vector<double> position;
+    direction dir;
 };
 
 #endif // BASECAMERA_H

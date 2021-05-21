@@ -13,9 +13,8 @@ class ProjectionVisitor : public BaseVisitor
 {
 public:
     ProjectionVisitor(std::shared_ptr<BaseCamera> &camera);
-    void visitPoint(BasePoint &point) override;
-    void visitFrameModel(FrameModel &model) override;
-    void visitEdge(BaseEdge &edge) override;
+    void visitPoint(Point &point) override;
+    void visitEdge(Edge &edge) override;
     void visitCamera(BaseCamera &camera) override;
 
 protected:

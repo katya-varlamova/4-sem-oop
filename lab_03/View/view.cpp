@@ -1,16 +1,44 @@
 #include "view.h"
 #include "ui_view.h"
+unique_ptr<BaseDrawerCreator> View::createQtDrawerCreator()
+{
+    scene = std::shared_ptr<QGraphicsScene>(new QGraphicsScene());
+    std::shared_ptr<QPen> pen (new QPen(Qt::red));
+    std::shared_ptr<QBrush> brush (new QBrush(Qt::white));
+    return std::unique_ptr<BaseDrawerCreator>(new QtDrawerCreator(scene, pen, brush));
+}
+unique_ptr<BaseLoaderCreator> View::createFileLoaderCreator()
+{
+    return std::unique_ptr<BaseLoaderCreator>(new FileLoaderCreator());
+}
+void View::registration()
+{
+    Configuration configuration;
+    configuration.readConfiguration(configName);
+    std::string ds = configuration.getDataSource();
+    std::string gl = configuration.getGraphicsLibrary();
 
+    // registration of all DrawerCreators
+    GraphicsSolution graphicsSolution;
+    graphicsSolution.registration("qt", &View::createQtDrawerCreator);
+
+    // registration of all LoaderCreators
+    LoaderSolution loaderSolution;
+    loaderSolution.registration("file", &View::createFileLoaderCreator);
+
+    std::shared_ptr<BaseDrawerCreator>drawerCreator(graphicsSolution.create(this, gl));
+    drawer = drawerCreator->createDrawer();
+    std::shared_ptr<BaseLoaderCreator>loaderCreator(loaderSolution.create(this, ds));
+    loader = loaderCreator->createLoader();
+}
 View::View(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::View)
 {
     ui->setupUi(this);
-    scene = std::shared_ptr<QGraphicsScene>(new QGraphicsScene());
-    std::shared_ptr<QPen> pen (new QPen(Qt::red));
-    std::shared_ptr<QBrush> brush (new QBrush(Qt::white));
-    drawer = std::shared_ptr<BaseDrawer>(new QtDrawer(scene, brush, pen));
-    controller = std::shared_ptr<Controller>(new Controller(this, drawer));ui->graphicsView->setScene(scene.get());
+    registration();
+    controller = std::shared_ptr<Controller>(new Controller(this, drawer, loader));
+    ui->graphicsView->setScene(scene.get());
 }
 View::~View()
 {

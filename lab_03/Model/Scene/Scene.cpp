@@ -26,12 +26,12 @@ std::shared_ptr <BaseCamera>& Scene::getCamera()
 {
     return camera;
 }
-void Scene::setCamera(std::shared_ptr <BaseCamera> &camera)
+void Scene::setCamera(std::shared_ptr <BaseCamera> camera)
 {
     this->camera = camera;
 }
 
-void Scene::addObject(std::shared_ptr<BaseObject> &obj)
+void Scene::addObject(std::shared_ptr<BaseObject> obj)
 {
     objects.push_back(obj);
 }
@@ -59,7 +59,7 @@ void Scene::restore(std::shared_ptr<Snapshot> shot)
 {
     *this = shot->getScene();
 }
-std::shared_ptr<BaseScene> Scene::clone()
+std::shared_ptr<BaseObject> Scene::clone()
 {
     std::vector<std::shared_ptr<BaseObject>> copyObjects;
     for (auto &obj : objects)

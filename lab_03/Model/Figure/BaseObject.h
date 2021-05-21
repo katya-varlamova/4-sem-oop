@@ -10,7 +10,11 @@ public:
     virtual bool isComposite() = 0;
     virtual void accept(std::shared_ptr<BaseVisitor>& visitor) = 0;
     virtual std::shared_ptr<BaseObject> clone() = 0;
+    virtual std::vector<double> getOffset();
+    virtual void setOffset(std::vector<double> offset);
 
+protected:
+    std::vector<double> worldOffset;
 };
 
 #endif // BASEOBJECT_H

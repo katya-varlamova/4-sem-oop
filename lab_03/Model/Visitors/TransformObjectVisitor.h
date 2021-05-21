@@ -8,9 +8,8 @@ class TransformObjectVisitor : public BaseVisitor
 {
 public:
     TransformObjectVisitor(Matrix<double> &transformMatrix);
-    virtual void visitPoint(BasePoint& point) override;
-    virtual void visitEdge(BaseEdge& edge) override;
-    virtual void visitFrameModel(FrameModel &model) override;
+    virtual void visitPoint(Point& point) override;
+    virtual void visitEdge(Edge& edge) override;
     virtual void visitCamera(BaseCamera& camera) override;
 protected:
     Matrix<double> transformMatrix = {{1,0,0,0},

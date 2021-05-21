@@ -7,13 +7,12 @@
 class SceneBuilder : public BaseSceneBuilder
 {
 public:
-    SceneBuilder(double distance, std::vector<double> &worldCenterOffset);
+    SceneBuilder(std::shared_ptr<BaseCamera> camera);
     virtual bool buildObjects() override;
     virtual bool buildCamera() override;
 
     virtual std::shared_ptr<BaseScene> getScene() override;
 protected:
-    std::vector<std::shared_ptr<BaseObject>> objects;
     std::shared_ptr<BaseCamera> camera;
     double distance;
     std::vector<double> worldCenterOffset;

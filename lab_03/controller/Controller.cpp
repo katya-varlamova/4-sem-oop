@@ -1,44 +1,58 @@
 #include "Controller.h"
 
-Controller::Controller(QMainWindow *view, std::shared_ptr<BaseDrawer> drawer)
+Controller::Controller(QMainWindow *view, std::shared_ptr<BaseDrawer> drawer, std::shared_ptr<BaseLoader> loader)
 {
     this->view = view;
     facade = std::shared_ptr<Facade>(new Facade());
     this->drawer = drawer;
+    this->loader = loader;
 }
 void Controller::load()
 {
-    facade->loadData("/Users/kate/Desktop/oop/lab_03/files/model.txt");
-    facade->draw(drawer);
+    LoadCommand com(loader, sourceName);
+    facade->executeCommand(com);
+    DrawCommand drawCom(drawer);
+    facade->executeCommand(drawCom);
 }
 void Controller::undo()
 {
-    facade->undo();
-    facade->draw(drawer);
+    UndoCommand com;
+    facade->executeCommand(com);
+    DrawCommand drawCom(drawer);
+    facade->executeCommand(drawCom);
 }
 void Controller::moveModel(double dx, double dy, double dz)
 {
-    facade->moveObject(dx, dy, dz);
-    facade->draw(drawer);
+    MoveObjectCommand com(dx, dy, dz);
+    facade->executeCommand(com);
+    DrawCommand drawCom(drawer);
+    facade->executeCommand(drawCom);
 }
 void Controller::scaleModel(double kx, double ky, double kz)
 {
-    facade->scaleObject(kx, ky, kz);
-    facade->draw(drawer);
+    ScaleObjectCommand com(kx, ky, kz);
+    facade->executeCommand(com);
+    DrawCommand drawCom(drawer);
+    facade->executeCommand(drawCom);
 }
 void Controller::rotateModel(double ax, double ay, double az)
 {
-    facade->rotateObject(ax, ay, az);
-    facade->draw(drawer);
+    RotateObjectCommand com(ax, ay, az);
+    facade->executeCommand(com);
+    DrawCommand drawCom(drawer);
+    facade->executeCommand(drawCom);
 }
 void Controller::moveCamera(double dx, double dy, double dz)
 {
-    facade->moveCamera(dx, dy, dz);
-    facade->draw(drawer);
-
+    MoveCameraCommand com(dx, dy, dz);
+    facade->executeCommand(com);
+    DrawCommand drawCom(drawer);
+    facade->executeCommand(drawCom);
 }
 void Controller::rotateCamera(double ax, double ay, double az)
 {
-    facade->rotateCamera(ax, ay, az);
-    facade->draw(drawer);
+    RotateCameraCommand com(ax, ay, az);
+    facade->executeCommand(com);
+    DrawCommand drawCom(drawer);
+    facade->executeCommand(drawCom);
 }

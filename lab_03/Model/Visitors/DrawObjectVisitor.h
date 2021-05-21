@@ -12,9 +12,8 @@ class DrawObjectVisitor : public BaseVisitor
 public:
     DrawObjectVisitor(std::shared_ptr<BaseDrawer>& drawer);
     void visitCamera(BaseCamera &camera) override;
-    void visitEdge(BaseEdge &edge) override;
-    void visitFrameModel(FrameModel &model) override;
-    void visitPoint(BasePoint &point) override;
+    void visitEdge(Edge &edge) override;
+    void visitPoint(Point &point) override;
 
 protected:
     std::shared_ptr<BaseDrawer> drawer;

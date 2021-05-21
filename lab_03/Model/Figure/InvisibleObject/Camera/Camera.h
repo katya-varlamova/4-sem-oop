@@ -5,9 +5,7 @@
 class Camera : public BaseCamera
 {
 public:
-    Camera(double distance,
-           std::vector<double> &position,
-           Matrix<double> transformMatrix = Matrix<double>({{1,0,0,0}, {0,1,0,0},{0,0,1,0},{0,0,0,1}}));
+    Camera(direction dir, std::vector<double> offset);
     virtual void accept(std::shared_ptr<BaseVisitor>& visitor) override;
     virtual std::shared_ptr<BaseObject> clone() override;
 

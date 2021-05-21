@@ -12,9 +12,8 @@ class MoveObjectVisitor : public BaseVisitor
 {
 public:
     MoveObjectVisitor(double dx, double dy, double dz);
-    virtual void visitPoint(BasePoint& point) override;
-    virtual void visitEdge(BaseEdge& edge) override;
-    virtual void visitFrameModel(FrameModel &model) override;
+    virtual void visitPoint(Point& point) override;
+    virtual void visitEdge(Edge& edge) override;
     virtual void visitCamera(BaseCamera& camera) override;
 protected:
     double dx, dy, dz;

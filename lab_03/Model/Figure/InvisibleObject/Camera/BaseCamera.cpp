@@ -1,30 +1,14 @@
 #include "BaseCamera.h"
-void BaseCamera::setTransformMatrix(Matrix<double> &transformMatrix)
-{
-    this->transformMatrix = transformMatrix;
-}
-Matrix<double> BaseCamera::getTransformMatrix()
-{
-    return Matrix<double>(transformMatrix);
-}
 
-void BaseCamera::setDistance(double distance)
+void BaseCamera::setDirection(direction &direction)
 {
-    this->distance = distance;
+    this->dir = direction;
 }
-double BaseCamera::getDistance()
+direction BaseCamera::getDirection()
 {
-    return distance;
+    return dir;
 }
-void BaseCamera::setPosition(std::vector<double> position)
-{
-    this->position = position;
-}
-std::vector<double> BaseCamera::getPosition()
-{
-    return position;
-}
-bool BaseCamera::isComposite()
+bool BaseCamera::BaseCamera::isComposite()
 {
     return true;
 }

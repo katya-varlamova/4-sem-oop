@@ -15,9 +15,9 @@ public:
     virtual std::vector<std::shared_ptr<BaseObject>>::const_iterator end() override;
 
     virtual std::shared_ptr <BaseCamera>& getCamera() override;
-    virtual void setCamera(std::shared_ptr <BaseCamera> &camera) override;
+    virtual void setCamera(std::shared_ptr <BaseCamera> camera) override;
 
-    virtual void addObject(std::shared_ptr<BaseObject> &obj) override;
+    virtual void addObject(std::shared_ptr<BaseObject> obj) override;
     virtual void removeObject(std::vector<std::shared_ptr<BaseObject>>::const_iterator iter) override;
 
     virtual std::shared_ptr<BaseObject> getObject(size_t i) override;
@@ -26,7 +26,7 @@ public:
     virtual std::shared_ptr<Snapshot> makeSnapshot() override;
     virtual void restore(std::shared_ptr<Snapshot>) override;
 
-    virtual std::shared_ptr<BaseScene> clone() override;
+    virtual std::shared_ptr<BaseObject> clone() override;
 
 };
 

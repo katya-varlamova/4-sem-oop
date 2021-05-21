@@ -2,17 +2,16 @@
 #define BASEVISITOR_H
 
 class BaseCamera;
-class BasePoint;
-class BaseEdge;
+class Point;
+class Edge;
 class FrameModel;
 
 class BaseVisitor
 {
 public:
     BaseVisitor() = default;
-    virtual void visitPoint(BasePoint& point) = 0;
-    virtual void visitEdge(BaseEdge& edge) = 0;
-    virtual void visitFrameModel(FrameModel &model) = 0;
+    virtual void visitPoint(Point& point) = 0;
+    virtual void visitEdge(Edge& edge) = 0;
     virtual void visitCamera(BaseCamera& camera) = 0;
 };
 

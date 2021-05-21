@@ -1,8 +1,7 @@
 #include "SceneBuilder.h"
-SceneBuilder::SceneBuilder(double distance, std::vector<double> &worldCenterOffset)
+SceneBuilder::SceneBuilder(std::shared_ptr<BaseCamera> camera)
 {
-    this->distance = distance;
-    this->worldCenterOffset = worldCenterOffset;
+    this->camera = camera;
 }
 bool SceneBuilder::buildObjects()
 {
@@ -10,8 +9,6 @@ bool SceneBuilder::buildObjects()
 }
 bool SceneBuilder::buildCamera()
 {
-    std::shared_ptr<BaseObjectFactory> factory(new ObjectFactory());
-    camera = factory->createCamera(distance, worldCenterOffset);
     return true;
 }
 
