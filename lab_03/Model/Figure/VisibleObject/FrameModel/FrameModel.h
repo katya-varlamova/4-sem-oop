@@ -2,21 +2,22 @@
 #define FRAMEMODEL_H
 
 #include "Model/Figure/VisibleObject/VisibleObject.h"
-#include "Model/Figure/Primitives/Point/Point.h"
-#include "Model/Figure/Primitives/Edge/Edge.h"
-#include "Model/Figure/ObjectFactory/ObjectFactory.h"
+#include "Model/Figure/Primitives/Primitive.h"
+#include "Model/Visitors/DrawObjectVisitor.h"
+#include "Model/Visitors/ProjectionVisitor.h"
 class FrameModel: public VisibleObject
 {
 public:
-    FrameModel(std::vector<std::shared_ptr<Point>> points, std::vector<std::shared_ptr<Edge>> edges);
+    FrameModel(std::shared_ptr<Primitive> primitives, std::vector<double> worldOffset);
 
     virtual void accept(std::shared_ptr<BaseVisitor>& visitor) override;
     virtual std::shared_ptr<BaseObject> clone() override;
+    virtual void transform(Matrix<double> &matrix) override;
     virtual bool isComposite();
-
+    friend void DrawObjectVisitor::visit(FrameModel &model);
+    friend void ProjectionVisitor::visit(FrameModel &model);
 protected:
-    std::vector<std::shared_ptr<Edge>> edges;
-    std::vector<std::shared_ptr<Point>> points;
+    std::shared_ptr<Primitive> primitives;
 };
 
 #endif // FRAMEMODEL_H

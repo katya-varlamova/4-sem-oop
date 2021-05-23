@@ -11,7 +11,7 @@ class BaseCommand
 {
 public:
     BaseCommand() = default;
-    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker) = 0;
+    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker) = 0;
 
 };
 

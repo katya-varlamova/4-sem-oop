@@ -2,7 +2,6 @@
 #define MOVEOBJECTHANDLER_H
 
 #include "BaseHandler.h"
-#include "Model/Visitors/MoveObjectVisitor.h"
 class MoveObjectHandler : public BaseHandler
 {
 public:

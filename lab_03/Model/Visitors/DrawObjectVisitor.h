@@ -6,15 +6,14 @@
 #define LAB_03_DRAWOBJECTVISITOR_H
 #include "BaseVisitor.h"
 #include "Drawer/BaseDrawer.h"
-
+#include "Model/Figure/CompositeObject/CompositeObject.h"
 class DrawObjectVisitor : public BaseVisitor
 {
 public:
     DrawObjectVisitor(std::shared_ptr<BaseDrawer>& drawer);
-    void visitCamera(BaseCamera &camera) override;
-    void visitEdge(Edge &edge) override;
-    void visitPoint(Point &point) override;
-
+    virtual void visit(BaseCamera &camera) override;
+    virtual void visit(FrameModel &model) override;
+    virtual void visit(CompositeObject &compositeObject) override;
 protected:
     std::shared_ptr<BaseDrawer> drawer;
 };

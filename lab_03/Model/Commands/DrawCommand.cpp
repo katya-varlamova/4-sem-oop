@@ -7,7 +7,7 @@ DrawCommand::DrawCommand(std::shared_ptr<BaseDrawer> &drawer)
 {
     this->drawer = drawer;
 }
-void DrawCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker)
+void DrawCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker)
 {
     std::shared_ptr<BaseScene> copyScene(new Scene(scene));
 

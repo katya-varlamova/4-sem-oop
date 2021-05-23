@@ -14,6 +14,7 @@ public:
 
     virtual void drawLine(double x1, double y1, double x2, double y2) override;
     void drawPoint(double x, double y) override;
+    virtual void changeColor(int r, int g, int b, int a) override;
 
 protected:
     std::shared_ptr<QGraphicsScene> scene;

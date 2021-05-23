@@ -6,23 +6,18 @@
 class Edge
 {
 public:
-    Edge(std::shared_ptr<Point> start, std::shared_ptr<Point> finish, std::vector<double> offset = {0, 0, 0});
+    Edge(size_t start, size_t finish);
     Edge(Edge &edge);
 
-    std::shared_ptr<Point> getStart();
-    std::shared_ptr<Point> getFinish();
+    size_t getStart();
+    size_t getFinish();
 
-    void setStart(std::shared_ptr<Point> &start);
-    void setFinish(std::shared_ptr<Point> &finish);
+    void setStart(size_t start);
+    void setFinish(size_t finish);
 
-    void accept(std::shared_ptr<BaseVisitor>& visitor);
     std::shared_ptr<Edge> clone();
-
-    std::vector<double>  getOffset();
-    void setOffset(std::vector<double> offset);
 protected:
-    std::shared_ptr<Point> start, finish;
-    std::vector<double> worldOffset;
+    size_t start, finish;
 };
 
 #endif // Edge_H

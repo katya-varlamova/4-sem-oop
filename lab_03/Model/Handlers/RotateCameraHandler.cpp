@@ -24,6 +24,5 @@ void RotateCameraHandler::handle(std::shared_ptr<BaseScene> &scene)
                                 {0, 0, 0,  1}};
     Matrix<double>rotationMatrix = rotationX * rotationZ;
     rotationMatrix *= rotationY;
-    std::shared_ptr<BaseVisitor> visitor( new TransformObjectVisitor(rotationMatrix));
-    scene->getCamera()->accept(visitor);
+    scene->getCamera()->transform(rotationMatrix);
 }

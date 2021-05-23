@@ -24,7 +24,6 @@ void RotateObjectHandler::handle(std::shared_ptr<BaseScene> &scene)
                                 {0, 0, 0,  1}};
     Matrix<double>rotationMatrix = rotationX * rotationY;
     rotationMatrix *= rotationZ;
-    std::shared_ptr<BaseVisitor> visitor( new TransformObjectVisitor(rotationMatrix));
     for (auto &obj : *scene)
-        obj->accept(visitor);
+        obj->transform(rotationMatrix);
 }

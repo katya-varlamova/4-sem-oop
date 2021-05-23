@@ -4,7 +4,8 @@
 
 #ifndef LAB_03_BASEMODELLOADER_H
 #define LAB_03_BASEMODELLOADER_H
-
+#include "Model/Figure/VisibleObject/FrameModel/FrameModelBuilder/FrameModelBuilder.h"
+#include "Model/Figure/VisibleObject/FrameModel/FrameModelBuilder/FrameModelDirector.h"
 #include "BaseLoader.h"
 class BaseModelLoader : public BaseLoader{
 public:

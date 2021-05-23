@@ -7,6 +7,7 @@ MoveCameraHandler::MoveCameraHandler(double dx, double dy, double dz)
 }
 void MoveCameraHandler::handle(std::shared_ptr<BaseScene> &scene)
 {
-    std::shared_ptr<BaseVisitor> visitor( new MoveObjectVisitor(dx, dy, dz));
-    scene->getCamera()->accept(visitor);
+    scene->getCamera()->setOffset(std::vector<double>({dx + scene->getCamera()->getOffset()[0],
+                                                       dy + scene->getCamera()->getOffset()[1],
+                                                       dz + scene->getCamera()->getOffset()[2]}));
 }

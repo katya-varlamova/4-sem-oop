@@ -10,7 +10,7 @@ class UndoCommand : public BaseCommand
 {
 public:
     UndoCommand() = default;
-    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker) override;
+    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker) override;
 };
 
 #endif //LAB_03_UNDOCOMMAND_H

@@ -11,7 +11,7 @@ class RotateObjectCommand : public BaseCommand
 {
 public:
     RotateObjectCommand(double ax, double ay, double az);
-    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker) override;
+    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker) override;
 protected:
     double ax, ay, az;
 };

@@ -12,7 +12,7 @@ class MoveCameraCommand : public BaseCommand
 {
 public:
     MoveCameraCommand(double dx, double dy, double dz);
-    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker) override;
+    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker) override;
 
 protected:
     double dx, dy, dz;

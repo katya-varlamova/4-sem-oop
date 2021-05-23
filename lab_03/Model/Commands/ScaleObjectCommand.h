@@ -11,7 +11,7 @@ class ScaleObjectCommand : public BaseCommand
 {
 public:
     ScaleObjectCommand(double kx, double ky, double kz);
-    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker) override;
+    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker) override;
 
 protected:
     double kx, ky, kz;

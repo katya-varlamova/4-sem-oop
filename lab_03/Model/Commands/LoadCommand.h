@@ -12,11 +12,11 @@
 class LoadCommand : public BaseCommand
 {
 public:
-    LoadCommand(std::shared_ptr<BaseLoader> loader, string filename);
-    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker) override;
+    LoadCommand(std::shared_ptr<BaseLoader> loader, std::string name);
+    virtual void execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker) override;
 
 protected:
-    string filename;
+    std::string name;
     std::shared_ptr<BaseLoader> loader;
 };
 

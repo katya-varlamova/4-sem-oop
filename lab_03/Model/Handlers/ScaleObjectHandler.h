@@ -2,7 +2,6 @@
 #define SCALEOBJECTHANDLER_H
 
 #include "BaseHandler.h"
-#include "Model/Visitors/TransformObjectVisitor.h"
 class ScaleObjectHandler : public BaseHandler
 {
 public:

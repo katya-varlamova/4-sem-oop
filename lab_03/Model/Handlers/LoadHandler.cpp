@@ -1,13 +1,13 @@
 #include "LoadHandler.h"
 
-LoadHandler::LoadHandler(const char *filename, std::shared_ptr<BaseLoader> loader)
+LoadHandler::LoadHandler(std::string &name, std::shared_ptr<BaseLoader> &loader)
 {
-    this->filename = filename;
+    this->name = name;
     this->loader = loader;
 }
 void LoadHandler::handle(std::shared_ptr<BaseScene> &scene)
 {
-    loader->open(filename);
+    loader->open(name);
     scene = std::dynamic_pointer_cast<BaseScene>(loader->load());
     loader->close();
 }

@@ -6,7 +6,10 @@
 std::unique_ptr<BaseLoaderCreator> LoaderSolution::create(View *view, std::string id)
 {
     auto it = callbacks.find(id);
-    if (it == callbacks.end()){}
+    if (it == callbacks.end())
+    {
+        throw IdException(__FILE__, __LINE__, __TIME__, "there is no registered creator with such id");
+    }
     std::unique_ptr<BaseLoaderCreator> cr = (view->*(it->second))();
     return cr;
 }

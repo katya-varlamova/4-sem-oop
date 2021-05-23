@@ -1,24 +1,26 @@
 #include "FrameModel.h"
-
-FrameModel::FrameModel(std::vector<std::shared_ptr<Point>> points, std::vector<std::shared_ptr<Edge>> edges)
+#include "FrameModelBuilder/FrameModelDirector.h"
+#include "FrameModelBuilder/FrameModelBuilder.h"
+FrameModel::FrameModel(std::shared_ptr<Primitive> primitives, std::vector<double>worldOffset)
 {
-    this->points = points;
-    this->edges = edges;
+    this->primitives = primitives;
+    this->worldOffset = worldOffset;
 }
 std::shared_ptr<BaseObject> FrameModel::clone()
 {
-    std::shared_ptr<BaseObjectFactory> factory(new ObjectFactory());
-    return factory->createFrameModel(points, edges);
+    std::shared_ptr<BaseFrameModelBuilder> builder(new FrameModelBuilder(primitives->getPoints(), primitives->getEdges(), worldOffset));
+    std::shared_ptr<BaseFrameModelDirector> director(new FrameModelDirector());
+    return director->createFrameModel(builder);
 }
 bool FrameModel::isComposite()
 {
     return false;
 }
+void FrameModel::transform(Matrix<double> &matrix)
+{
+    primitives->transform(matrix);
+}
 void FrameModel::accept(std::shared_ptr<BaseVisitor> &visitor)
 {
-    for (auto &point : points)
-        point->accept(visitor);
-    for (auto &edge : edges)
-        edge->accept(visitor);
-
+    visitor->visit(*this);
 }

@@ -9,6 +9,7 @@
 #include <map>
 #include "Model/Loader/BaseLoader.h"
 #include "Model/Loader/LoaderCreator/BaseLoaderCreator.h"
+#include "Model/Errors/Exception.h"
 class View;
 class LoaderSolution {
     typedef std::unique_ptr<BaseLoaderCreator> (View::*createCreator)();

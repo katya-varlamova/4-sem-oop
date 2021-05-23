@@ -9,7 +9,7 @@ RotateObjectCommand::RotateObjectCommand(double ax, double ay, double az)
     this->ay = ay;
     this->az = az;
 }
-void RotateObjectCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker)
+void RotateObjectCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker)
 {
     caretaker->addSnapshot(scene->makeSnapshot());
     RotateObjectHandler rh(ax, ay, az);

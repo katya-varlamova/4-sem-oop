@@ -3,13 +3,13 @@
 //
 
 #include "LoadCommand.h"
-LoadCommand::LoadCommand(std::shared_ptr<BaseLoader> loader, string filename)
+LoadCommand::LoadCommand(std::shared_ptr<BaseLoader> loader, std::string name)
 {
-    this->filename = filename;
+    this->name = name;
     this->loader = loader;
 }
-void LoadCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker)
+void LoadCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker)
 {
-    LoadHandler lh(filename.c_str(), loader);
+    LoadHandler lh(name, loader);
     lh.handle(scene);
 }

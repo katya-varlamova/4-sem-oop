@@ -8,6 +8,7 @@
 #include <string>
 #include <map>
 #include "Drawer/DrawerFactory/BaseDrawerCreator.h"
+#include "Model/Errors/Exception.h"
 class View;
 class GraphicsSolution {
     typedef std::unique_ptr<BaseDrawerCreator> (View::*createCreator)(void);

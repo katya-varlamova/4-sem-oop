@@ -10,6 +10,8 @@ DrawHandler::DrawHandler(std::shared_ptr<BaseDrawer> &drawer)
 void DrawHandler::handle(std::shared_ptr<BaseScene> &scene)
 {
     std::shared_ptr<BaseVisitor> visitor(new DrawObjectVisitor(drawer));
-    for (auto &obj: *scene)
+    for (auto &obj : *scene)
+    {
         obj->accept(visitor);
+    }
 }

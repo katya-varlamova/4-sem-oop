@@ -10,6 +10,8 @@ FileCameraLoader::FileCameraLoader(FILE *f)
 void FileCameraLoader::open(std::string name)
 {
     f = fopen(name.c_str(), "r");
+    if (f == NULL)
+        throw Load_Exception(__FILE__, __LINE__, __TIME__, "unable to open file");
 }
 void FileCameraLoader::close()
 {
@@ -18,12 +20,14 @@ void FileCameraLoader::close()
 std::shared_ptr<BaseObject> FileCameraLoader::load()
 {
     double distanse;
-    fscanf(f, "%lf", &distanse);
+    if (fscanf(f, "%lf", &distanse) != 1)
+        throw Load_Exception(__FILE__, __LINE__, __TIME__, "read camera error");
     std::vector<double> offset;
     double tmp;
     for (int i = 0; i < 3; i++)
     {
-        fscanf(f, "%lf", &tmp);
+        if (fscanf(f, "%lf", &tmp) != 1)
+            throw Load_Exception(__FILE__, __LINE__, __TIME__, "read camera error");;
         offset.push_back(tmp);
     }
     std::shared_ptr<BaseObjectFactory> factory(new ObjectFactory);

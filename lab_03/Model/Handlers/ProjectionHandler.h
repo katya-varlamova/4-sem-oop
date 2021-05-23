@@ -12,7 +12,6 @@ class ProjectionHandler : public BaseHandler
 public:
     ProjectionHandler() = default;
     void handle(std::shared_ptr<BaseScene> &scene) override;
-
 };
 
 

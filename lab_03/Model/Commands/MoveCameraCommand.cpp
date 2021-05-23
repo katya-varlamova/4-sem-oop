@@ -9,7 +9,7 @@ MoveCameraCommand::MoveCameraCommand(double dx, double dy, double dz)
     this->dy = dy;
     this->dz = dz;
 }
-void MoveCameraCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker)
+void MoveCameraCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker)
 {
     caretaker->addSnapshot(scene->makeSnapshot());
     MoveCameraHandler mh(dx, dy, dz);

@@ -9,11 +9,11 @@
 class Snapshot
 {
 public:
-    Snapshot(Scene &scene, std::vector<std::shared_ptr<BaseObject>> objects, std::shared_ptr<BaseCamera> camera);
+    Snapshot(Scene &scene, std::shared_ptr<CompositeObject> objects, std::shared_ptr<BaseCamera> camera);
     Scene & getScene();
 protected:
     Scene &scene;
-    std::vector<std::shared_ptr<BaseObject>> objects;
+    std::shared_ptr<CompositeObject> objects;
     std::shared_ptr<BaseCamera> camera;
 };
 

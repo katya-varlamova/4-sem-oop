@@ -9,7 +9,7 @@ MoveObjectCommand::MoveObjectCommand(double dx, double dy, double dz)
     this->dy = dy;
     this->dz = dz;
 }
-void MoveObjectCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker)
+void MoveObjectCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker)
 {
     caretaker->addSnapshot(scene->makeSnapshot());
     MoveObjectHandler mh(dx, dy, dz);

@@ -7,6 +7,7 @@
 #include <string>
 #include "Model/Figure/BaseObject.h"
 #include "Model/Figure/ObjectFactory/ObjectFactory.h"
+#include "Model/Errors/Exception.h"
 class BaseLoader {
 public:
     virtual void open(std::string name) = 0;

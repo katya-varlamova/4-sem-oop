@@ -10,6 +10,8 @@ FileModelLoader::FileModelLoader(FILE *f)
 void FileModelLoader::open(std::string name)
 {
     f = fopen(name.c_str(), "r");
+    if (f == NULL)
+        throw Load_Exception(__FILE__, __LINE__, __TIME__, "unable to open file");
 }
 void FileModelLoader::close()
 {
@@ -17,23 +19,30 @@ void FileModelLoader::close()
 }
 std::shared_ptr<BaseObject> FileModelLoader::load()
 {
-    size_t pointsCount, edgesCount, modelsCount;
-    std::shared_ptr<BaseObjectFactory> factory(new ObjectFactory);
+    size_t pointsCount, edgesCount;
     double x, y, z;
     size_t fn, sn;
-    fscanf(f, "%zu", &pointsCount);
+    if (fscanf(f, "%zu", &pointsCount) != 1)
+        throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (points count)");
     std::vector<std::shared_ptr<Point>> points;
-    fscanf(f, "%lf", &x);
-    fscanf(f, "%lf", &y);
-    fscanf(f, "%lf", &z);
-    points.push_back(factory->createPoint(x, y, z, {0, 0, 0}));
+    if (fscanf(f, "%lf", &x) != 1)
+        throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (points coordinates)");
+    if (fscanf(f, "%lf", &y) != 1)
+        throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (points coordinates)");
+    if (fscanf(f, "%lf", &z) != 1)
+        throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (points coordinates)");
+    points.push_back(std::shared_ptr<Point>(new Point(x, y, z)));
     double minx = x, maxx = x, miny = y, maxy = y, minz = z, maxz = z;
     for (size_t i = 0; i < pointsCount - 1; i++)
     {
-        fscanf(f, "%lf", &x);
-        fscanf(f, "%lf", &y);
-        fscanf(f, "%lf", &z);
-        points.push_back(factory->createPoint(x, y, z, {0, 0, 0}));
+        if (fscanf(f, "%lf", &x) != 1)
+            throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (points coordinates)");
+        if (fscanf(f, "%lf", &y) != 1)
+            throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (points coordinates)");
+        if (fscanf(f, "%lf", &z) != 1)
+            throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (points coordinates)");
+
+        points.push_back(std::shared_ptr<Point>(new Point(x, y, z)));
         if (x > maxx)
             maxx = x;
         if (x < minx)
@@ -58,18 +67,20 @@ std::shared_ptr<BaseObject> FileModelLoader::load()
         points[i]->setX(points[i]->getX() - x_center);
         points[i]->setY(points[i]->getY() - y_center);
         points[i]->setZ(points[i]->getZ() - z_center);
-        points[i]->setOffset(std::vector<double>({x_center, y_center, z_center}));
     }
-    fscanf(f, "%zu", &edgesCount);
+    if (fscanf(f, "%zu", &edgesCount) != 1)
+        throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (edges count)");
 
     std::vector<std::shared_ptr<Edge>> edges;
     for (size_t i = 0; i < edgesCount; i++)
     {
-        fscanf(f, "%zu", &fn);
-        fscanf(f, "%zu", &sn);
-        edges.push_back(factory->createEdge( points[fn - 1]->clone(),
-                                             points[sn - 1]->clone(),
-                                             {x_center, y_center, z_center}));
+        if (fscanf(f, "%zu", &fn) != 1 || fn < 1)
+            throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (edges)");
+        if (fscanf(f, "%zu", &sn) != 1 || sn < 1)
+            throw Load_Exception(__FILE__, __LINE__, __TIME__, "read model error (edges)");
+        edges.push_back(std::shared_ptr<Edge>(new Edge( fn - 1, sn - 1)));
     }
-    return factory->createFrameModel(points, edges);
+    std::shared_ptr<BaseFrameModelBuilder> builder(new FrameModelBuilder(points, edges,  {x_center, y_center, z_center}));
+    std::shared_ptr<BaseFrameModelDirector> director(new FrameModelDirector());
+    return director->createFrameModel(builder);
 }

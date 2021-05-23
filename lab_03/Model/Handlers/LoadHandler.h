@@ -12,11 +12,11 @@
 class LoadHandler : public BaseHandler
 {
 public:
-    LoadHandler(const char *filename, std::shared_ptr<BaseLoader> loader);
+    LoadHandler(std::string &name, std::shared_ptr<BaseLoader> &loader);
     void handle(std::shared_ptr<BaseScene> &scene) override;
 
 protected:
-    const char *filename;
+    std::string name;
     std::shared_ptr<BaseLoader> loader;
 };
 

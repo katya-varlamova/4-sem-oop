@@ -14,8 +14,6 @@ public:
     virtual std::shared_ptr<BaseScene> getScene() override;
 protected:
     std::shared_ptr<BaseCamera> camera;
-    double distance;
-    std::vector<double> worldCenterOffset;
 };
 
 #endif // SCENEBUILDER_H

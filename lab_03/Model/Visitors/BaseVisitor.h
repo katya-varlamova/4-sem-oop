@@ -1,18 +1,16 @@
 #ifndef BASEVISITOR_H
 #define BASEVISITOR_H
-
+#include <memory>
 class BaseCamera;
-class Point;
-class Edge;
 class FrameModel;
-
+class CompositeObject;
 class BaseVisitor
 {
 public:
     BaseVisitor() = default;
-    virtual void visitPoint(Point& point) = 0;
-    virtual void visitEdge(Edge& edge) = 0;
-    virtual void visitCamera(BaseCamera& camera) = 0;
+    virtual void visit(BaseCamera &camera) = 0;
+    virtual void visit(FrameModel &model) = 0;
+    virtual void visit(CompositeObject &compositeObject) = 0;
 };
 
 #endif // BASEVISITOR_H

@@ -12,7 +12,6 @@ void ScaleObjectHandler::handle(std::shared_ptr<BaseScene> &scene)
                                 {0, ky, 0, 0},
                                 {0, 0, kz, 0},
                                 {0, 0, 0,  1}};
-    std::shared_ptr<BaseVisitor> visitor( new TransformObjectVisitor(transMatr));
     for (auto &obj : *scene)
-        obj->accept(visitor);
+        obj->transform(transMatr);
 }

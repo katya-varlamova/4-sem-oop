@@ -8,7 +8,7 @@ class Scene : public BaseScene
 {
 public:
     friend Snapshot;
-    Scene() = default;
+    Scene();
     Scene(std::vector<std::shared_ptr<BaseObject>> objects, std::shared_ptr <BaseCamera> camera);
     Scene(std::shared_ptr<BaseScene> &scene);
     virtual std::vector<std::shared_ptr<BaseObject>>::const_iterator begin() override;
@@ -20,8 +20,7 @@ public:
     virtual void addObject(std::shared_ptr<BaseObject> obj) override;
     virtual void removeObject(std::vector<std::shared_ptr<BaseObject>>::const_iterator iter) override;
 
-    virtual std::shared_ptr<BaseObject> getObject(size_t i) override;
-    virtual void setObject(std::vector<std::shared_ptr<BaseObject>>::const_iterator iter, std::shared_ptr<BaseObject> &obj) override;
+    virtual std::vector<shared_ptr<BaseObject>> getObjects() override;
 
     virtual std::shared_ptr<Snapshot> makeSnapshot() override;
     virtual void restore(std::shared_ptr<Snapshot>) override;

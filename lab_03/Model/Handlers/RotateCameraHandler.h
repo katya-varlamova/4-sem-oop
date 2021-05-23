@@ -2,7 +2,6 @@
 #define ROTATECAMERAHANDLER_H
 
 #include "BaseHandler.h"
-#include "Model/Visitors/TransformObjectVisitor.h"
 #include "math.h"
 class RotateCameraHandler : public BaseHandler
 {

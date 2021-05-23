@@ -9,7 +9,7 @@ ScaleObjectCommand::ScaleObjectCommand(double kx, double ky, double kz)
     this->ky = ky;
     this->kz = kz;
 }
-void ScaleObjectCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> caretaker)
+void ScaleObjectCommand::execute(std::shared_ptr<BaseScene> &scene, std::shared_ptr<Caretaker> &caretaker)
 {
     caretaker->addSnapshot(scene->makeSnapshot());
     ScaleObjectHandler sh(kx, ky, kz);

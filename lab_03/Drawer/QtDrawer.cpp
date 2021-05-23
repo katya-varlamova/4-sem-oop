@@ -15,3 +15,7 @@ void QtDrawer::drawPoint(double x, double y)
 {
     scene->addRect(x, y, 1, 1, *pen);
 }
+void QtDrawer::changeColor(int r, int g, int b, int a)
+{
+    pen->setColor(QColor(r, g, b, a));
+}

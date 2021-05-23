@@ -8,8 +8,10 @@ MoveObjectHandler::MoveObjectHandler(double dx, double dy, double dz)
 }
 void MoveObjectHandler::handle(std::shared_ptr<BaseScene> &scene)
 {
-    std::shared_ptr<BaseVisitor> visitor( new MoveObjectVisitor(dx, dy, dz));
-    for (auto &obj : *scene)
-        obj->accept(visitor);
+    for (auto &obj : *scene) {
+        obj->setOffset(std::vector<double>({dx + obj->getOffset()[0],
+                                                           dy + obj->getOffset()[1],
+                                                           dz + obj->getOffset()[2]}));
+    }
 
 }

@@ -2,26 +2,25 @@
 #define Point_H
 
 #include "Model/Figure/VisibleObject/VisibleObject.h"
+#include "Model/Containers/matrix/matrix/matrix.h"
 class Point
 {
 public:
-    Point(double x, double y, double z, std::vector<double> offset = {0, 0, 0});
+    Point(double x, double y, double z);
     Point(const Point &point);
     double getX();
     double getY();
     double getZ();
-    std::vector<double>  getOffset();
 
     void setX(double x);
     void setY(double y);
     void setZ(double z);
-    void setOffset(std::vector<double> offset);
 
-    void accept(std::shared_ptr<BaseVisitor>& visitor);
+    void transform(Matrix<double> &transformMatrix);
+
     std::shared_ptr<Point> clone();
 protected:
     double x, y, z;
-    std::vector<double> worldOffset;
 
 };
 

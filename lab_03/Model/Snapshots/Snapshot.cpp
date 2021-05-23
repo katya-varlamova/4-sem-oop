@@ -3,7 +3,7 @@
 //
 
 #include "Snapshot.h"
-Snapshot::Snapshot(Scene &scene, std::vector<std::shared_ptr<BaseObject>> objects, std::shared_ptr<BaseCamera> camera)
+Snapshot::Snapshot(Scene &scene, std::shared_ptr<CompositeObject> objects, std::shared_ptr<BaseCamera> camera)
  : scene(scene)
 {
     this->objects = objects;

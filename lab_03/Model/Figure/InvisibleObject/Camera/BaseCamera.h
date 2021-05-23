@@ -13,7 +13,6 @@ class BaseCamera : public InvisibleObject
 {
 public:
     virtual bool isComposite() override;
-    void setDirection(direction &direction);
     direction getDirection();
 protected:
     direction dir;

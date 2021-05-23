@@ -11,15 +11,23 @@ DrawObjectVisitor::DrawObjectVisitor(std::shared_ptr<BaseDrawer>& drawer)
 {
     this->drawer = drawer;
 }
-void DrawObjectVisitor::visitEdge(Edge &edge)
+void DrawObjectVisitor::visit(FrameModel &model)
 {
-    drawer->drawLine(edge.getStart()->getX(), edge.getStart()->getY(),
-                      edge.getFinish()->getX(), edge.getFinish()->getY());
+    for (auto &point : model.primitives->getPoints())
+        drawer->drawPoint(point->getX(), point->getY());
+    for (auto &edge : model.primitives->getEdges())
+        drawer->drawLine(model.primitives->getPoints()[edge->getStart()]->getX(),
+                         model.primitives->getPoints()[edge->getStart()]->getY(),
+                         model.primitives->getPoints()[edge->getFinish()]->getX(),
+                         model.primitives->getPoints()[edge->getFinish()]->getY());
 }
-void DrawObjectVisitor::visitPoint(Point &point)
+void DrawObjectVisitor::visit(CompositeObject &compositeObject)
 {
-    drawer->drawPoint(point.getX(), point.getY());
+    std::shared_ptr<BaseVisitor>ptr(this);
+    for (auto &obj : compositeObject)
+        obj->accept(ptr);
 }
-void DrawObjectVisitor::visitCamera(BaseCamera &camera)
+void DrawObjectVisitor::visit(BaseCamera &camera)
 {
+
 }

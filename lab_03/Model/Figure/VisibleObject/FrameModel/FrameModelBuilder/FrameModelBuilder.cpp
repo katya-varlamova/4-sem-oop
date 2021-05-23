@@ -1,34 +1,33 @@
 #include "FrameModelBuilder.h"
 
-FrameModelBuilder::FrameModelBuilder(std::vector<std::shared_ptr<Point>> points, std::vector<std::shared_ptr<Edge>> edges)
+FrameModelBuilder::FrameModelBuilder(std::vector<std::shared_ptr<Point>> points, std::vector<std::shared_ptr<Edge>> edges,
+                                     std::vector<double> worldOffset)
 {
     this->points = points;
     this->edges = edges;
+    this->worldOffset = worldOffset;
+    primitives = std::shared_ptr<Primitive>(new Primitive);
 }
 bool FrameModelBuilder::buildEdges()
 {
-    std::shared_ptr<BaseObjectFactory> factory(new ObjectFactory());
-    for (auto edge : edges)
+    for (auto &edge : edges)
     {
-        edges_copy.push_back(factory->createEdge(edge->getStart()->clone(),
-                                             edge->getFinish()->clone(),
-                                             edge->getOffset()));
+        primitives->addEdge(std::shared_ptr<Edge>(new Edge(edge->getStart(),
+                                             edge->getFinish())));
     }
     return true;
 }
 bool FrameModelBuilder::buildPoints()
 {
-    std::shared_ptr<BaseObjectFactory> factory(new ObjectFactory());
-    for (auto point : points)
+    for (auto &point : points)
     {
-        points_copy.push_back(factory->createPoint(point->getX(),
+        primitives->addPoint(std::shared_ptr<Point>(new Point(point->getX(),
                                               point->getY(),
-                                              point->getZ(),
-                                              point->getOffset()));
+                                              point->getZ())));
     }
     return true;
 }
 std::shared_ptr<FrameModel> FrameModelBuilder::getFrameModel()
 {
-    return std::shared_ptr<FrameModel> (new FrameModel(points_copy, edges_copy));
+    return std::shared_ptr<FrameModel> (new FrameModel(primitives, worldOffset));
 }
