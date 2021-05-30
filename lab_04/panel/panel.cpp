@@ -22,7 +22,7 @@ void panel::make_busy(int floor)
     state = BUSY;
     is_target[floor] = true;
     search_target();
-    emit set_target(cur_target, dir);
+    emit set_cabin_target(cur_target, dir);
 }
 void panel::make_free(int floor)
 {

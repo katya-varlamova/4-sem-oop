@@ -25,7 +25,7 @@ public slots:
     void make_free(int floor);
 
 signals:
-    void set_target(int floor, direction direction);
+    void set_cabin_target(int floor, direction direction);
     void make_busy_sig(int floor);
 
 private:

@@ -5,7 +5,7 @@
 #include "lift.h"
 lift::lift()
 {
-    QObject::connect(&pan, SIGNAL(set_target(int, direction)), &cab,
+    QObject::connect(&pan, SIGNAL(set_cabin_target(int, direction)), &cab,
                      SLOT(cabin_preparing(int, direction)));
     QObject::connect(&cab, SIGNAL(cabin_passed_floor(int)),
                      &pan, SLOT(make_free(int)));
@@ -14,5 +14,5 @@ lift::lift()
 }
 void lift::call(int floor)
 {
-    pan.make_busy(floor);
+    emit pan.make_busy_sig(floor);
 }
