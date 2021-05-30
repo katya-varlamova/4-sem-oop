@@ -6,18 +6,12 @@
 door::door(QObject *parent)
 {
     state = CLOSED;
-    doors_stay_open_timer.setInterval(WAITING_TIME);
-    doors_stay_open_timer.setSingleShot(true);
     doors_open_timer.setSingleShot(true);
     doors_close_timer.setSingleShot(true);
 
     QObject::connect(&doors_open_timer, SIGNAL(timeout()), this, SLOT(opened()));
     QObject::connect(&doors_close_timer, SIGNAL(timeout()), this, SLOT(closed()));
 
-    QObject::connect(this, SIGNAL(doors_opened()), &doors_stay_open_timer,
-                     SLOT(start()));
-    QObject::connect(&doors_stay_open_timer, SIGNAL(timeout()), this,
-                     SLOT(closing()));
 }
 
 void door::opened() {
@@ -30,7 +24,7 @@ void door::opened() {
 }
 
 void door::closed() {
-    if (state != CLOSING && state != CLOSED)
+    if (state != CLOSING)
         return;
 
     state = CLOSED;
@@ -47,10 +41,6 @@ void door::opening() {
 }
 
 void door::closing() {
-    if (state == CLOSED) {
-        emit doors_closed();
-        return;
-    }
     if (state != OPENED)
         return;
     state = CLOSING;

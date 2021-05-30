@@ -10,7 +10,7 @@
 #include "door/door.h"
 typedef enum
 {
-    MOVE, LOCKED, STOP
+    MOVE, STOP, WAIT_OPENING, WAIT_CLOSING, PREPARED
 } cabin_state;
 class cabin : public QObject {
     Q_OBJECT
@@ -20,18 +20,25 @@ public:
 public slots:
     void cabin_move();
     void cabin_stop();
-    void cabin_lock(int floor, direction dir);
+    void cabin_wait_opening();
+    void cabin_wait_closing();
+    void cabin_preparing(int floor, direction dir);
 signals:
     void cabin_passed_floor(int floor);
-    void cabin_reached_target(int floor);
+    void cabin_end_moving();
+
+    void cabin_prepared();
+    void cabin_wait_opening_sig();
+    void cabin_wait_closing_sig();
     void cabin_stopped(int floor);
-    void door_close();
+
 private:
     int current_floor;
     int target;
     cabin_state state;
     direction dir;
     QTimer crossing_floor_timer;
+    QTimer doors_stay_open_timer;
     door doors;
 };
 

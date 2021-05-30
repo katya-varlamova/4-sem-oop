@@ -19,18 +19,20 @@ class panel : public QObject{
     Q_OBJECT
 public:
     panel();
-    void set_target_floor(int floor);
+
+public slots:
+    void make_busy(int floor);
+    void make_free(int floor);
+
 signals:
     void set_target(int floor, direction direction);
-public slots:
-    void achieved_floor(int floor);
-    void passed_floor(int floor);
+    void make_busy_sig(int floor);
 
 private:
+    void search_target();
     bool is_target[FLOORS_COUNT];
     direction dir;
     int cur_target = -1;
-    int target = -1;
     int cur_floor = -1;
     panel_state state;
 };

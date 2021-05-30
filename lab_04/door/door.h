@@ -29,7 +29,6 @@ private:
     door_state state;
     QTimer doors_open_timer;
     QTimer doors_close_timer;
-    QTimer doors_stay_open_timer;
 };
 
 
