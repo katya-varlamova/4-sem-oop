@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-
 #include "matrix/matrix.h"
 typedef bool (*test)(void);
 typedef struct
